@@ -3,6 +3,7 @@
     <div>
         我是父亲
     </div>
+    <input type="text" v-model="msg">
     <child :send-message="msg"></child>
   </div>
   

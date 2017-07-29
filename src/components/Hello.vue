@@ -7,6 +7,14 @@
       <router-link :to="{path:'/test/789',query:{id:1234,name:'阿晖'}}">参数传递2</router-link>
       <br>
       <button @click="toNewPage">点击跳转</button>
+      <br>
+      <br>
+      <div>
+        {{count}}
+      </div>
+      <button @click="press">增加</button>
+      <br>
+      <button @click="press2">增加2</button>
     </div>
     <!-- <div>
       <div v-for="item in list">
@@ -28,6 +36,18 @@ export default {
   methods:{
     toNewPage(){
       this.$router.push({path:'/test/000',query:{id:222,name:'切尔西'}})
+    },
+    press(){
+      this.$store.commit({
+        type:'increment',
+        amount:2
+      })
+    },
+    press2(){
+      this.$store.dispatch({
+        type:'incrementAsyc',
+        amount:10
+      })
     }
   },
   mounted (){
@@ -36,6 +56,11 @@ export default {
       console.log(res.body)
       this.list=res.body.data
     })
+  },
+  computed:{
+    count(){
+      return this.$store.state.count
+    }
   }
 }
 </script>
