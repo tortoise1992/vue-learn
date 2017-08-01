@@ -1,17 +1,31 @@
 <template>
   <div>
       <div>
-          我是儿子
+          我是儿子1
       </div>
-      <input type="text" v-model="sendMessage">
-      <br>
-      {{sendMessage}}
+      <div>
+          <p>积分：{{originScore}}</p>
+          <p>价格：{{originPrice}}</p>
+      </div>
+      <button @click="test">查询价格</button>
   </div>
 </template>
 <script>
 export default {
   name:'child',
-  props:['sendMessage']
+  methods:{
+    test(){
+      this.$store.dispatch('findPriceSync')
+    }
+  },
+  computed:{
+    originScore(){
+      return this.$store.state.score;
+    },
+    originPrice(){
+      return this.$store.state.price;
+    }
+  }
 }
 </script>
 <style scoped>

@@ -12,18 +12,42 @@ Vue.config.productionTip = false
 Vue.use(Vuex)
 const store=new Vuex.Store({
   state:{
-    count:0
+    score:0,
+    price:560
+  },
+  getters:{
+    filtGoods:(state) =>{
+        return state.goods.filter((item) => item.is)
+    }
   },
   mutations:{
-    increment (state,obj){
-      state.count +=obj.amount
+    getScore(state,obj){
+      state.score=obj.score
+    },
+    getPrice(state,obj){
+      state.price -=obj.coupon
     }
   },
   actions:{
-    incrementAsyc(context,obj){
-      setTimeout(function(){
-        context.commit('increment',obj)
-      },2000)
+    findScoreSync(context){
+      return new Promise((reslove,reject) =>{
+        var score_url='/static/score.json';
+        Vue.http.get(score_url).then((res)=>{
+          var myScore=res.body.data[0].score;
+          context.commit('getScore',{score:myScore})
+          reslove() //等待commit完成
+        })
+      })
+      
+    },
+    async findPriceSync(context){
+      await context.dispatch('findScoreSync')
+      console.log('该会员的积分是:'+store.state.score)
+      var price_url='/static/price.json';
+      Vue.http.get(price_url).then((res)=>{
+        var myPrice=res.body.data[0].price;
+        context.commit('getPrice',{coupon:myPrice})
+      })
     }
   }
 })

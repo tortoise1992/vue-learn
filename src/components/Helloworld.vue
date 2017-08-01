@@ -4,12 +4,14 @@
         我是父亲
     </div>
     <input type="text" v-model="msg">
-    <child :send-message="msg"></child>
+    <child></child>
+    <child2></child2>
   </div>
-  
+   
 </template>
 <script>
 import child from './child/child'
+import child2 from './child/child2'
 export default {
   data(){
       console.log(this.$route)
@@ -21,7 +23,7 @@ export default {
           msg:"我是传给儿子的信息"
       }
   },
-  components:{child}
+  components:{child,child2}
 
 }
 </script>
